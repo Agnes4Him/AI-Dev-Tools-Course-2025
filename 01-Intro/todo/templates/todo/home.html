@@ -1,0 +1,35 @@
+<!-- todo/templates/todo/home.html -->
+{% extends "todo/base.html" %}
+{% block title %}Home — TODOs{% endblock %}
+
+{% block content %}
+  <section class="card">
+    <h2>All TODOs</h2>
+    {% if todos %}
+      <ul style="list-style:none; padding:0;">
+      {% for todo in todos %}
+        <li class="card" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3 class="{% if todo.resolved %}resolved{% endif %}">{{ todo.title }}</h3>
+            <p class="muted">{{ todo.description|default:"(no description)" }}</p>
+            <p class="muted">
+              {% if todo.due_date %}Due: {{ todo.due_date|date:"F j, Y" }}{% else %}No due date{% endif %}
+              • Created: {{ todo.created_at|date:"F j, Y, g:ia" }}
+            </p>
+          </div>
+          <div style="text-align:right;">
+            <form method="post" action="{% url 'todo:toggle' todo.pk %}" class="inline">
+              {% csrf_token %}
+              <button class="btn" type="submit">{% if todo.resolved %}Unresolve{% else %}Mark resolved{% endif %}</button>
+            </form>
+            <a class="btn" href="{% url 'todo:edit' todo.pk %}">Edit</a>
+            <a class="btn" href="{% url 'todo:delete' todo.pk %}">Delete</a>
+          </div>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p>No TODOs yet — create one!</p>
+    {% endif %}
+  </section>
+{% endblock %}

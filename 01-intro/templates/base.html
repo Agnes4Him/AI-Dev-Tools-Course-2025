@@ -1,0 +1,28 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{% block title %}TODO App{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+  <header>
+    <h1><a href="{% url 'todos:home' %}">My TODOs</a></h1>
+  </header>
+  <main>
+    {% if messages %}
+      <ul class="messages">
+      {% for m in messages %}
+        <li class="{{ m.tags }}">{{ m }}</li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>
+    <p>Simple Django TODO app!</p>
+  </footer>
+</body>
+</html>

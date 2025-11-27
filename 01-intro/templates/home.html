@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Home - TODOs{% endblock %}
+{% block content %}
+<p><a href="{% url 'todos:create' %}">Create new TODO</a></p>
+<table>
+  <thead><tr><th>Title</th><th>Due</th><th>Resolved</th><th>Actions</th></tr></thead>
+  <tbody>
+  {% for todo in todos %}
+    <tr {% if todo.resolved %}class="resolved"{% endif %}>
+      <td>{{ todo.title }}</td>
+      <td>{% if todo.due_date %}{{ todo.due_date }}{% else %}-{% endif %}</td>
+      <td>{{ todo.resolved }}</td>
+      <td>
+        <a href="{% url 'todos:edit' todo.pk %}">Edit</a> |
+        <a href="{% url 'todos:toggle_resolved' todo.pk %}">Toggle</a> |
+        <a href="{% url 'todos:delete' todo.pk %}">Delete</a>
+      </td>
+    </tr>
+  {% empty %}
+    <tr><td colspan="4">No TODOs yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

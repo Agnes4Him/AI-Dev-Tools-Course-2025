@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ action }} TODO{% endblock %}
+
+{% block content %}
+<h2>{{ action }} TODO</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">{{ action }}</button>
+</form>
+
+<p><a href="{% url 'todos:home' %}">Back to list</a></p>
+{% endblock %}

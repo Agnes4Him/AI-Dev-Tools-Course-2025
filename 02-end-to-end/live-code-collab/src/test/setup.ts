@@ -29,3 +29,12 @@ Object.assign(navigator, {
     writeText: vi.fn().mockResolvedValue(undefined),
   },
 });
+
+// Polyfill Element.prototype.scrollIntoView for jsdom/Radix tests
+if (typeof Element !== 'undefined' && !Element.prototype.scrollIntoView) {
+  // eslint-disable-next-line func-names
+  Element.prototype.scrollIntoView = function (this: Element) {
+    // no-op: tests only need this to exist
+    return;
+  } as any;
+}
